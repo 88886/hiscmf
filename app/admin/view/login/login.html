@@ -121,7 +121,7 @@
 <!-- jquery.form、layer、yfcmf的js -->
 <script src="__PUBLIC__/others/bootstrap.min.js"></script>
 <script src="__PUBLIC__/others/jquery.form.js"></script>
-<script src="__PUBLIC__/layer/layer_zh-cn.js"></script>
+<script src="__PUBLIC__/layer/layer.js"></script>
 <script src="__PUBLIC__/others/maxlength.js"></script>
 <script src="__PUBLIC__/yfcmf/yfcmf.js"></script>
 <script src="__PUBLIC__/yfcmf/gt.js"></script>
@@ -135,7 +135,7 @@
             //加载完毕执行
         });
     };
-    $.ajax({
+   /* $.ajax({
         url: "{:geetest_url()}?t=" + (new Date()).getTime(),
         type: "get",
         dataType: "json",
@@ -147,7 +147,7 @@
                 offline: !data.success
             }, handler);
         }
-    });
+    });*/
 </script>
 <!-- 如果为触屏,则引入jquery.mobile -->
 <script type="text/javascript">
