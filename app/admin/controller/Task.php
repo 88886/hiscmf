@@ -91,19 +91,19 @@ class Task extends Base
         if ($renwu == '0') {  //我的所有任务
             $map['shbz'] = '1';
             $map['jiedfzr'] = session('admin_auth.aid');
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($renwu == '1') {  //我未接收的任务
             $zhuangt = Db::name('dl_erjidaima')->where('fenlbm', '当前状态')->where('daimmc', '未接收')->value('daimid'); //更新任务主表的当前状态，为未接收
             $map['shbz'] = '1';
             $map['jiedfzr'] = session('admin_auth.aid');
             $map['zhuangt'] = $zhuangt;
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($renwu == '2') {  //我已接收的任务
             $zhuangt = Db::name('dl_erjidaima')->where('fenlbm', '当前状态')->where('daimmc', '接收')->value('daimid');
             $map['shbz'] = '1';
             $map['jiedfzr'] = session('admin_auth.aid');
             $map['zhuangt'] = $zhuangt;
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($renwu == '3') {  //我参与过的任务
             /*$zhuangt = Db::name('dl_erjidaima')->where('fenlbm', '当前状态')->where('daimmc', '未接收')->value('daimid');
             $map['shbz'] = '1';
@@ -112,29 +112,29 @@ class Task extends Base
             $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);*/
             //查询出当前用户的所有参与任务
             $renwid = Db::name('dl_buglist_zirw')->where('fuzr',session('admin_auth.aid'))->column('distinct renwid');
-            $buglist = Db::name('dl_buglist')->where('renwid','in',$renwid)->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where('renwid','in',$renwid)->whereOr('renwid','like', "%" . $key . "%")->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($update == '6') {  //更新时间排序
             //如果选择了关闭任务，就显示关闭任务的记录
             if ($biaoz == 26) {
                 unset($map['rw_state']);
-                $buglist = Db::name('dl_buglist')->where($map)->where('rw_state', 26)->order('rw_state asc')->order('uptime desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+                $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->where('rw_state', 26)->order('rw_state asc')->order('uptime desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
             } else {
-                $buglist = Db::name('dl_buglist')->where($map)->order('uptime desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+                $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('uptime desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
             }
         } elseif ($yxjb == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('youxjb desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('youxjb desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($fabsj == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('fabsj asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         } elseif ($jiedyjwcsj == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('jiedyjwcsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('jiedyjwcsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         }elseif ($yaoqwcsj == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('yaoqwcsj asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('yaoqwcsj asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         }elseif ($cpmc == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('chanp_id asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('chanp_id asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         }elseif ($xmmc == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('xiangm_id desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('xiangm_id desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         }elseif ($jiedfzr1 == '1') {
-            $buglist = Db::name('dl_buglist')->where($map)->order('jiedfzr asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+            $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('jiedfzr asc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
         }else {
             //如果选择了关闭任务，就显示关闭任务的记录
             if ($biaoz == 26) {
@@ -144,57 +144,10 @@ class Task extends Base
             if ($biaoz == '0') {
                 $buglist = Db::name('dl_buglist')->order('uptime desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
             } else {
-                $buglist = Db::name('dl_buglist')->where($map)->order('rw_state asc')->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
+                $buglist = Db::name('dl_buglist')->where($map)->whereOr('renwid','like', "%" . $key . "%")->order('rw_state asc')->order('fabsj desc')->paginate(config('paginate.list_rows'), false, ['query' => get_query()]);
             }
         }
-        /*if($renwu == '0'){  //我的所有任务
-            $map['shbz'] = '1';
-            $map['jiedfzr'] = session('admin_auth.aid');
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->select();
-        }elseif($renwu == '1'){  //我未接收的任务
-            $zhuangt= Db::name('dl_erjidaima')->where('fenlbm','当前状态')->where('daimmc','未接收')->value('daimid'); //更新任务主表的当前状态，为未接收
-            $map['shbz'] = '1';
-            $map['jiedfzr'] = session('admin_auth.aid');
-            $map['zhuangt'] = $zhuangt;
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->select();
 
-            //排序
-            if($renwu == '1' || $px == '4' || $px == '5' || $px == '6' || $px == '7' || $px == '8'){
-                common_px($px,$map,$biaoz);
-            }
-        }elseif($renwu == '2'){  //我已接收的任务
-            $zhuangt= Db::name('dl_erjidaima')->where('fenlbm','当前状态')->where('daimmc','接收')->value('daimid');
-            $map['shbz'] = '1';
-            $map['jiedfzr'] = session('admin_auth.aid');
-            $map['zhuangt'] = $zhuangt;
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->select();
-        }elseif($renwu == '3'){  //我分配的任务，即为我未接收的任务
-            $zhuangt= Db::name('dl_erjidaima')->where('fenlbm','当前状态')->where('daimmc','未接收')->value('daimid');
-            $map['shbz'] = '1';
-            $map['lzry'] = session('admin_auth.aid');
-            $map['zhuangt'] = $zhuangt;
-            $buglist = Db::name('dl_buglist')->where($map)->order('fabsj desc')->select();
-        }elseif($px == '6'){
-            //如果选择了关闭任务，就显示关闭任务的记录
-            if($biaoz == 26){
-                unset($map['rw_state']);
-                $buglist = Db::name('dl_buglist')->where($map)->where('rw_state',26)->order('rw_state asc')->order('uptime desc')->select();
-            }else{
-                $buglist = Db::name('dl_buglist')->where($map)->order('uptime desc')->select();
-            }
-        }else{
-            //如果选择了关闭任务，就显示关闭任务的记录
-            if($biaoz == 26){
-                unset($map['rw_state']);
-                $buglist = Db::name('dl_buglist')->where($map)->where('rw_state',26)->order('rw_state asc')->order('uptime desc')->select();
-            }else{
-                $buglist = Db::name('dl_buglist')->where($map)->order('rw_state asc')->order('fabsj desc')->select();
-            }
-        }
-        // 把PHP数组转成JSON字符串
-        $json_string = json_encode($buglist);
-        // 写入文件
-        file_put_contents(ABS_PUBLIC_URL.'test1.json', $json_string);*/
         //显示总任务数目
         unset($map['rw_state']);
         $sum = Db::name('dl_buglist')->where($map)->where('shbz', '1')->count();
